@@ -125,11 +125,14 @@ const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
 scene.add(ambientLight)
 
 // Pointer light 
-const pointLight = new THREE.PointLight(0x00ffff, 0.5)
+const pointLight = new THREE.PointLight(0x280b6a, 0.5)
 pointLight.position.x = 1
 pointLight.position.y = 1
 pointLight.position.z = 5
 scene.add(pointLight)
+
+console.log(pointLight)
+gui.addColor( pointLight, 'color' )
 
 scene.add(planeBase, planeMiddle, planeTop)
 
