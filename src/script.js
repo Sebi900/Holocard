@@ -37,7 +37,7 @@ scene.background = new THREE.Color( 0x1f1e20 );
 
 // Material 
 // Materiale Base
-const materialBase = new THREE.MeshPhongMaterial()
+const materialBase = new THREE.MeshPhongMaterial( {side: THREE.DoubleSide} )
 materialBase.map = baseTexture
 materialBase.aoMapIntensity = 1
 materialBase.displacementScale = 0.2
@@ -48,7 +48,7 @@ materialBase.transparent = false
 materialBase.doubleSided = true;
 
 // MaterialMiddle
-const materialMiddle = new THREE.MeshStandardMaterial()
+const materialMiddle = new THREE.MeshStandardMaterial( {side: THREE.DoubleSide} )
 materialMiddle.map = middleTexture
 materialMiddle.aoMapIntensity = 1
 materialMiddle.roughness = 0.4
@@ -57,7 +57,7 @@ materialMiddle.normalScale.set(0.5, 0.5)
 materialMiddle.transparent = true
 
 // MaterialeTop
-const materialTop = new THREE.MeshStandardMaterial()
+const materialTop = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide })
 materialTop.map = topTexture
 materialTop.aoMapIntensity = 1
 materialTop.alphaMap = alphaTopTexture
@@ -116,7 +116,9 @@ const particlesMaterial = new THREE.PointsMaterial({
 
 // Points
 const particles = new THREE.Points(particlesGeometry, particlesMaterial)
-// scene.add(particles) // Here you can add particles for the background
+console.log(particles)
+gui.add( particles, 'visible' )
+scene.add(particles) // Here you can add particles for the background
 
 // Ambient light 
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
@@ -187,7 +189,9 @@ scene.add(camera)
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+controls.enableDamping = false;
+controls.enableZoom = false;
+
 
 /**
  * Renderer
@@ -204,6 +208,8 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 
 // gsap.to(planeBase.rotation, {duration: 1, delay: 1, y:3.14, x: 0.2})
+// gsap.to(planeMiddle.rotation, {duration: 1, delay: 1, y:3.14, x: 0.2})
+// gsap.to(planeTop.rotation, {duration: 1, delay: 1, y:3.14, x: 0.2})
 
 const clock = new THREE.Clock()
 
