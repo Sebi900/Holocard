@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import GUI from "lil-gui"
+import { gsap } from 'gsap'
 
 THREE.ColorManagement.enabled = false
 
@@ -32,6 +33,7 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
+scene.background = new THREE.Color( 0x1f1e20 );
 
 // Material 
 // Materiale Base
@@ -40,9 +42,9 @@ materialBase.map = baseTexture
 materialBase.aoMapIntensity = 1
 materialBase.displacementScale = 0.2
 materialBase.normalScale.set(0.5, 0.5)
-materialBase.transparent = true
 materialBase.shininess = 100
 materialBase.alphaMap = alphaBaseTexture
+materialBase.doubleSided = true;
 
 // MaterialMiddle
 const materialMiddle = new THREE.MeshStandardMaterial()
@@ -82,8 +84,38 @@ const planeTop = new THREE.Mesh(
 )
 
 planeBase.position.z = 0
-planeMiddle.position.z = 0.05
-planeTop.position.z = 0.10
+planeMiddle.position.z = 0.10
+planeTop.position.z = 0.20
+
+// Particle
+
+const particlesCount = 200
+const positions = new Float32Array(particlesCount * 3)
+
+for(let i = 0; i < particlesCount; i++)
+{
+    positions[i * 3 + 0] = (Math.random() - 0.5) * 10
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 10
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 10
+}
+
+const parameters = {
+    materialColor: 'gray'
+}
+
+const particlesGeometry = new THREE.BufferGeometry()
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+
+// Material Particle
+const particlesMaterial = new THREE.PointsMaterial({
+    color: parameters.materialColor,
+    sizeAttenuation: textureLoader,
+    size: 2
+})
+
+// Points
+const particles = new THREE.Points(particlesGeometry, particlesMaterial)
+// scene.add(particles) // Here you can add particles for the background
 
 // Ambient light 
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
@@ -111,7 +143,7 @@ window.addEventListener('mousemove', (event) =>
     cursor.x = event.clientX / sizes.width - 0.5
     cursor.y = - (event.clientY / sizes.height - 0.5)
 
-    console.log(cursor.x, cursor.y)
+    // console.log(cursor.x, cursor.y)
 })
 
 /**
@@ -169,6 +201,9 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 /**
  * Animate
  */
+
+// gsap.to(planeBase.rotation, {duration: 1, delay: 1, y:3.14, x: 0.2})
+
 const clock = new THREE.Clock()
 
 const tick = () =>
