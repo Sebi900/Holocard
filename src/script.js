@@ -62,7 +62,7 @@ materialTop.normalScale.set(0.5, 0.5)
 materialTop.transparent = true
 
 // Gui 
-gui.add(material, "displacementScale").min(0).max(5).step(0.01)
+// gui.add(material, "displacementScale").min(0).max(5).step(0.01)
 
 // Objects
 
