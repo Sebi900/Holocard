@@ -44,6 +44,7 @@ materialBase.displacementScale = 0.2
 materialBase.normalScale.set(0.5, 0.5)
 materialBase.shininess = 100
 materialBase.alphaMap = alphaBaseTexture
+materialBase.transparent = false
 materialBase.doubleSided = true;
 
 // MaterialMiddle
